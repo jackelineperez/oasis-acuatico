@@ -46,7 +46,36 @@ export function Header({
             >
               ⚙️ Productos
             </NavLink>
+            <NavLink 
+              to="/usuarios" 
+              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+              style={{ textDecoration: 'none' }}
+            >
+              👥 Usuarios
+            </NavLink>
+            <NavLink 
+              to="/clientes" 
+              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+              style={{ textDecoration: 'none' }}
+            >
+              🧑‍🤝‍🧑 Clientes
+            </NavLink>
+            <NavLink 
+              to="/ordenes" 
+              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+              style={{ textDecoration: 'none' }}
+            >
+              🧾 Órdenes
+            </NavLink>
+            <NavLink 
+              to="/estados-orden" 
+              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
+              style={{ textDecoration: 'none' }}
+            >
+              📌 Estados
+            </NavLink>
           </div>
+          
 
           {esCatalogo && (
             <button className="cart-button">
