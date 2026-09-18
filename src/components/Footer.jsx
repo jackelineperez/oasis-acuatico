@@ -8,11 +8,11 @@ export function Footer({ categorias = [], setCategoriaActiva }) {
         <div className="footer-inner">
           <div className="footer-brand-section">
             <div className="footer-brand">
-              <span className="brand-logo">⚡</span>
-              <span className="brand-name">Quick<span className="brand-highlight">Order</span></span>
+              <span className="brand-logo">🐟</span>
+              <span className="brand-name">Oasis<span className="brand-highlight">Acuatico</span></span>
             </div>
             <p className="footer-description">
-              Tu comida favorita lista para ordenar de forma rápida, fresca y sin complicaciones.
+              Tu tienda favorita de peces y accesorios para acuarios.
             </p>
           </div>
 
@@ -23,13 +23,13 @@ export function Footer({ categorias = [], setCategoriaActiva }) {
               <h4 className="footer-heading">Contacto & Horarios</h4>
               <p className="footer-info">📍 Av. Principal #123, Ciudad</p>
               <p className="footer-info">🕒 Lunes a Domingo: 11:00 AM - 10:00 PM</p>
-              <p className="footer-info">📞 +57 300 000 0000</p>
+              <p className="footer-info">📞 +57 3170123652</p>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} QuickOrder. Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} OasisAcuatico. Todos los derechos reservados.</p>
         </div>
       </footer>
         </>

@@ -1,10 +1,11 @@
 import { Banner } from '../components/Banner';
 import { Product } from '../components/Product';
 
-export function CatalogoPage({ productos, categoriaActiva, onAddToCart, cargando }) {
-  const productosFiltrados = categoriaActiva === "Inicio" 
-    ? productos 
-    : productos.filter(p => p.categoria && p.categoria.toLowerCase() === categoriaActiva.toLowerCase());
+export function CatalogoPage({ productos, categoriaActiva = "Inicio", onAddToCart, cargando }) {
+  const listaProductos = Array.isArray(productos) ? productos : [];
+  const productosFiltrados = categoriaActiva === "Inicio" || categoriaActiva === "Todos"
+    ? listaProductos
+    : listaProductos.filter(p => p.categoria && p.categoria.toLowerCase() === categoriaActiva.toLowerCase());
 
   return (
     <>

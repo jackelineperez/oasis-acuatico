@@ -16,7 +16,7 @@ export function Product({ indice, nombre, descripcion, precio, imagen, tag, onAd
                     <div className="price-wrapper">
                         <span className="price-label">Precio</span>
                         <span className="product-price">
-                            {precio.startsWith('$') ? precio : `$ ${precio}`}
+                        {String(precio || '').startsWith('$') ? precio : `$ ${precio}`} 
                         </span>
                     </div>
                     <button className="btn-add-order" onClick={() => onAddToCart && onAddToCart(nombre)}>

@@ -1,5 +1,7 @@
 export function MenuInferior({ categorias = [], setCategoriaActiva }) {
-    const listaCategorias = categorias.filter(cat => (cat.nombre || cat.label) !== "Inicio");
+    const listaCategorias = Array.isArray(categorias)
+        ? categorias.filter(cat => (cat.nombre || cat.label) !== 'Inicio')
+        : [];
 
     return (
         <>
@@ -9,7 +11,7 @@ export function MenuInferior({ categorias = [], setCategoriaActiva }) {
                 {listaCategorias.map((cat) => {
                     const nombreCat = cat.nombre || cat.label;
                     return (
-                        <li key={cat.id}>
+                        <li key={cat.id || nombreCat}>
                             <button onClick={() => setCategoriaActiva(nombreCat)}>
                                 {nombreCat}
                             </button>

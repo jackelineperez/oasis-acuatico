@@ -9,6 +9,8 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { obtenerProductos } from './services/productService';
 import { obtenerCategorias } from './services/categoryService';
 
+const normalizarLista = (data) => Array.isArray(data) ? data : [];
+
 function App() {
   const [categoriaActiva, setCategoriaActiva] = useState("Inicio");
   const [cartCount, setCartCount] = useState(0);
@@ -23,11 +25,12 @@ function App() {
     setCargando(true);
     obtenerProductos()
       .then((data) => {
-        setProductos(data);
+        setProductos(normalizarLista(data));
         setCargando(false);
       })
       .catch((error) => {
         console.error('Error al obtener los productos:', error);
+        setProductos([]);
         setCargando(false);
       });
   };
@@ -37,10 +40,11 @@ function App() {
 
     obtenerCategorias()
       .then((data) => {
-        setCategorias(data);
+        setCategorias(normalizarLista(data));
       })
       .catch((error) => {
         console.error('Error al obtener las categorías:', error);
+        setCategorias([]);
       });
   }, []);
 

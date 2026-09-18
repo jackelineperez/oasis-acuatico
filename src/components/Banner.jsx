@@ -2,10 +2,11 @@ export function Banner() {
     return (
         <>
             <section className="hero-banner">
-                <div className="banner-badge">🔥 Menú Rápido & Delicioso</div>
-                <h1 className="banner-title">Pide tus Platillos Favoritos al Instante</h1>
+                <div className="banner-badge">🐟 Acuario y Tienda de Peces</div>
+                <h1 className="banner-title">Encuentra las Mejores Especies para tu Acuario</h1>
                 <p className="banner-subtitle">
-                    Explora nuestro menú seleccionado, ingredientes frescos y entrega rápida a tu mesa o domicilio.
+                   Explora nuestro catálogo de peces de agua dulce, Bettas y variedades 
+                   exclusivas de Goldfish con envío seguro a tu hogar.
                 </p>
             </section>
         </>
