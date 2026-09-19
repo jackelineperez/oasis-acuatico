@@ -1,32 +1,8 @@
-const API_URL = 'https://6aa6bbd7d7765db985079011.mockapi.io/estado_orden';
+import { createCrudService } from './crudService';
 
-export const obtenerEstadosOrden = () => {
-  return fetch(API_URL)
-    .then((response) => response.json());
-};
+const api = createCrudService('estado_orden');
 
-export const crearEstadoOrden = (estado) => {
-  return fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(estado)
-  }).then((response) => response.json());
-};
-
-export const actualizarEstadoOrden = (id, estado) => {
-  return fetch(`${API_URL}/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(estado)
-  }).then((response) => response.json());
-};
-
-export const eliminarEstadoOrden = (id) => {
-  return fetch(`${API_URL}/${id}`, {
-    method: 'DELETE'
-  }).then((response) => response.json());
-};
+export const obtenerEstadosOrden = api.obtener;
+export const crearEstadoOrden = api.crear;
+export const actualizarEstadoOrden = api.actualizar;
+export const eliminarEstadoOrden = api.eliminar;

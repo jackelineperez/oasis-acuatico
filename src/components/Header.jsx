@@ -1,25 +1,43 @@
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu } from './Menu';
+import { useAuth } from '../auth/useAuth';
 
-export function Header({ 
-  categorias = [], 
-  categoriaActiva, 
-  onSelectCategoria, 
-  cartCount = 0 
+export function Header({
+  categorias = [],
+  categoriaActiva,
+  onSelectCategoria,
+  cartCount = 0,
+  sidebarAbierto = false,
+  onToggleSidebar,
+  onLogout
 }) {
   const location = useLocation();
+  const { usuario, esAdmin } = useAuth();
   const esCatalogo = location.pathname === '/';
 
   return (
     <header className="header-navbar">
       <div className="header-inner">
-        {/* Brand / Logo con Link a la ruta raíz */}
+        <div className="header-left">
+          {esAdmin && (
+            <button
+              type="button"
+              className="sidebar-toggle"
+              onClick={onToggleSidebar}
+              aria-label={sidebarAbierto ? 'Ocultar menú lateral' : 'Mostrar menú lateral'}
+              aria-expanded={sidebarAbierto}
+            >
+              <span aria-hidden="true">☰</span>
+            </button>
+          )}
+        </div>
+
         <Link to="/" className="header-brand" style={{ textDecoration: 'none' }}>
-          <div className="brand-logo">🐟</div>
+          <div className="brand-logo" aria-hidden="true">🐟</div>
           <span className="brand-name">Oasis<span className="brand-highlight">Acuatico</span></span>
         </Link>
-        
-        {/* Nav de categorías sólo en la página de catálogo */}
+
+        {/* Categorías sólo en la página de catálogo */}
         {esCatalogo ? (
           <Menu categorias={categorias} onSelectCategoria={onSelectCategoria} categoriaActiva={categoriaActiva} />
         ) : (
@@ -28,69 +46,24 @@ export function Header({
           </div>
         )}
 
-        {/* Naves de rutas con NavLink y Carrito */}
         <div className="header-actions" style={{ gap: '12px' }}>
-          <div className="view-nav">
-            <NavLink 
-              to="/" 
-              end
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              🛍️ Catálogo
-            </NavLink>
-            <NavLink 
-              to="/productos" 
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              ⚙️ Productos
-            </NavLink>
-            <NavLink 
-              to="/categorias" 
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              🏷️ Categorías
-            </NavLink>
-            <NavLink 
-              to="/usuarios" 
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              👥 Usuarios
-            </NavLink>
-            <NavLink 
-              to="/clientes" 
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              🧑‍🤝‍🧑 Clientes
-            </NavLink>
-            <NavLink 
-              to="/ordenes" 
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              🧾 Órdenes
-            </NavLink>
-            <NavLink 
-              to="/estados-orden" 
-              className={({ isActive }) => `view-btn ${isActive ? "active" : ""}`}
-              style={{ textDecoration: 'none' }}
-            >
-              📌 Estados
-            </NavLink>
-          </div>
-          
-
           {esCatalogo && (
             <button className="cart-button">
-              <span className="cart-icon">🛒</span>
+              <span className="cart-icon" aria-hidden="true">🛒</span>
               <span className="cart-label">Mi Pedido</span>
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </button>
           )}
+
+          <div className="user-chip">
+            <div className="user-info">
+              <span className="user-name">{usuario?.nombre}</span>
+              <span className="user-role">{usuario?.rol}</span>
+            </div>
+            <button type="button" className="logout-button" onClick={onLogout}>
+              Cerrar sesión
+            </button>
+          </div>
         </div>
       </div>
     </header>

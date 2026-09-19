@@ -29,7 +29,7 @@ export function Footer({ categorias = [], setCategoriaActiva }) {
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} OasisAcuatico. Calidad, bienestar y estilo para tu acuario.</p>
+          <p>© {new Date().getFullYear()} Oasis Acuático. Calidad, bienestar y estilo para tu acuario.</p>
         </div>
       </footer>
         </>

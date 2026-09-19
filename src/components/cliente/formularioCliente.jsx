@@ -1,31 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export function FormularioCliente({ clienteAEditar, onGuardar, onCancelar, guardando }) {
-  const initialFormState = {
-    nombre: '',
-    email: '',
-    telefono: '',
-    documento: '',
-    direccion: '',
-    estado: true
-  };
-
-  const [formData, setFormData] = useState(initialFormState);
-
-  useEffect(() => {
-    if (clienteAEditar) {
-      setFormData({
-        nombre: clienteAEditar.nombre || '',
-        email: clienteAEditar.email || '',
-        telefono: clienteAEditar.telefono || '',
-        documento: clienteAEditar.documento || '',
-        direccion: clienteAEditar.direccion || '',
-        estado: clienteAEditar.estado ?? true
-      });
-    } else {
-      setFormData(initialFormState);
+  // El formulario se remonta con `key` distinto por registro (ver gestión), así que basta el estado inicial.
+  const [formData, setFormData] = useState(() => (
+    clienteAEditar ? {
+      nombre: clienteAEditar.nombre || '',
+      email: clienteAEditar.email || '',
+      telefono: clienteAEditar.telefono || '',
+      documento: clienteAEditar.documento || '',
+      direccion: clienteAEditar.direccion || '',
+      estado: clienteAEditar.estado ?? true
+    } : {
+      nombre: '',
+      email: '',
+      telefono: '',
+      documento: '',
+      direccion: '',
+      estado: true
     }
-  }, [clienteAEditar]);
+  ));
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

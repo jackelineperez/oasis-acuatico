@@ -11,7 +11,8 @@ export function GestionProductos({ productos = [], categorias = [], onActualizar
     setGuardando(true);
     if (productoAEditar) {
       // Actualizar producto existente
-      actualizarProducto(productoAEditar.id, formData)
+      // Conserva campos que el formulario no edita (stock, estado, ...)
+      actualizarProducto(productoAEditar.id, { ...productoAEditar, ...formData })
         .then(() => {
           alert('Producto actualizado con éxito');
           setProductoAEditar(null);
@@ -75,6 +76,7 @@ export function GestionProductos({ productos = [], categorias = [], onActualizar
       </div>
 
       <FormularioProducto
+        key={productoAEditar?.id ?? 'nuevo'}
         productoAEditar={productoAEditar}
         categorias={categorias}
         onGuardar={handleGuardar}

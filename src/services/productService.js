@@ -1,36 +1,8 @@
-const API_URL = 'https://6aa6bbd7d7765db985079011.mockapi.io/producto';
+import { createCrudService } from './crudService';
 
-// Obtener todos los productos
-export const obtenerProductos = () => {
-  return fetch(API_URL)
-    .then((response) => response.json());
-};
+const api = createCrudService('producto');
 
-// Crear un nuevo producto
-export const crearProducto = (producto) => {
-  return fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(producto)
-  }).then((response) => response.json());
-};
-
-// Actualizar un producto existente
-export const actualizarProducto = (id, producto) => {
-  return fetch(`${API_URL}/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(producto)
-  }).then((response) => response.json());
-};
-
-// Eliminar un producto por ID
-export const eliminarProducto = (id) => {
-  return fetch(`${API_URL}/${id}`, {
-    method: 'DELETE'
-  }).then((response) => response.json());
-};
+export const obtenerProductos = api.obtener;
+export const crearProducto = api.crear;
+export const actualizarProducto = api.actualizar;
+export const eliminarProducto = api.eliminar;

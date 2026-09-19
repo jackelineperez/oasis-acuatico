@@ -6,6 +6,7 @@ import { crearOrden, actualizarOrden, eliminarOrden } from '../../services/orden
 export function GestionOrdenes({ ordenes = [], onActualizarOrdenes, cargando }) {
   const [ordenAEditar, setOrdenAEditar] = useState(null);
   const [guardando, setGuardando] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
 
   const handleGuardar = (formData) => {
     setGuardando(true);
@@ -50,7 +51,9 @@ export function GestionOrdenes({ ordenes = [], onActualizarOrdenes, cargando }) 
   };
 
   const handleEliminar = (id) => {
+    if (eliminando) return;
     if (window.confirm('¿Estás seguro de que deseas eliminar esta orden?')) {
+      setEliminando(true);
       eliminarOrden(id)
         .then(() => {
           alert('Orden eliminada con éxito');
@@ -62,7 +65,8 @@ export function GestionOrdenes({ ordenes = [], onActualizarOrdenes, cargando }) 
         .catch((err) => {
           console.error('Error al eliminar orden:', err);
           alert('Error al eliminar la orden');
-        });
+        })
+        .finally(() => setEliminando(false));
     }
   };
 
@@ -74,6 +78,7 @@ export function GestionOrdenes({ ordenes = [], onActualizarOrdenes, cargando }) 
       </div>
 
       <FormularioOrden
+        key={ordenAEditar?.id ?? 'nuevo'}
         ordenAEditar={ordenAEditar}
         onGuardar={handleGuardar}
         onCancelar={handleCancelarEditar}
