@@ -59,7 +59,6 @@ export function CheckoutModal({ onCompraFinalizada }) {
     }
 
     setProcesando(true);
-    setPasoActual(2);
 
     try {
       // 1. Preparar datos de la orden
@@ -157,7 +156,6 @@ export function CheckoutModal({ onCompraFinalizada }) {
       showToast('Ocurrió un error al procesar la compra. Por favor intenta nuevamente.', 'error');
     } finally {
       setProcesando(false);
-      setPasoActual(1);
     }
   };
 
