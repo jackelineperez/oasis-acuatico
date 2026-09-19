@@ -1,25 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export function FormularioEstadoOrden({ estadoAEditar, onGuardar, onCancelar, guardando }) {
-  const initialFormState = {
-    nombre: '',
-    descripcion: '',
-    color: '#4CAF50'
-  };
-
-  const [formData, setFormData] = useState(initialFormState);
-
-  useEffect(() => {
-    if (estadoAEditar) {
-      setFormData({
-        nombre: estadoAEditar.nombre || '',
-        descripcion: estadoAEditar.descripcion || '',
-        color: estadoAEditar.color || '#4CAF50'
-      });
-    } else {
-      setFormData(initialFormState);
+  // El formulario se remonta con `key` distinto por registro (ver gestión), así que basta el estado inicial.
+  const [formData, setFormData] = useState(() => (
+    estadoAEditar ? {
+      nombre: estadoAEditar.nombre || '',
+      descripcion: estadoAEditar.descripcion || '',
+      color: estadoAEditar.color || '#4CAF50'
+    } : {
+      nombre: '',
+      descripcion: '',
+      color: '#4CAF50'
     }
-  }, [estadoAEditar]);
+  ));
 
   const handleChange = (e) => {
     const { name, value } = e.target;

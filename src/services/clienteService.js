@@ -1,32 +1,8 @@
-const API_URL = 'https://6aa6bbd7d7765db985079011.mockapi.io/cliente';
+import { createCrudService } from './crudService';
 
-export const obtenerClientes = () => {
-  return fetch(API_URL)
-    .then((response) => response.json());
-};
+const api = createCrudService('cliente');
 
-export const crearCliente = (cliente) => {
-  return fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(cliente)
-  }).then((response) => response.json());
-};
-
-export const actualizarCliente = (id, cliente) => {
-  return fetch(`${API_URL}/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(cliente)
-  }).then((response) => response.json());
-};
-
-export const eliminarCliente = (id) => {
-  return fetch(`${API_URL}/${id}`, {
-    method: 'DELETE'
-  }).then((response) => response.json());
-};
+export const obtenerClientes = api.obtener;
+export const crearCliente = api.crear;
+export const actualizarCliente = api.actualizar;
+export const eliminarCliente = api.eliminar;

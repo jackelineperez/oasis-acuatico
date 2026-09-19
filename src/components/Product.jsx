@@ -1,3 +1,5 @@
+import { formatearPrecio } from '../utils/formato';
+
 export function Product({ indice, nombre, descripcion, precio, imagen, tag, onAddToCart }) {
     return (
         <article className="product-card" key={indice}>
@@ -6,7 +8,7 @@ export function Product({ indice, nombre, descripcion, precio, imagen, tag, onAd
                 {imagen ? (
                     <img src={imagen} alt={nombre} className="product-image" loading="lazy" />
                 ) : (
-                    <div className="product-image-placeholder">🍔</div>
+                    <div className="product-image-placeholder">🐠</div>
                 )}
             </div>
             <div className="product-content">
@@ -16,7 +18,7 @@ export function Product({ indice, nombre, descripcion, precio, imagen, tag, onAd
                     <div className="price-wrapper">
                         <span className="price-label">Precio</span>
                         <span className="product-price">
-                        {String(precio || '').startsWith('$') ? precio : `$ ${precio}`} 
+                        {formatearPrecio(precio)} 
                         </span>
                     </div>
                     <button className="btn-add-order" onClick={() => onAddToCart && onAddToCart(nombre)}>

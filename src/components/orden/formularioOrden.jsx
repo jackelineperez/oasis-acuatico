@@ -1,29 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export function FormularioOrden({ ordenAEditar, onGuardar, onCancelar, guardando }) {
-  const initialFormState = {
-    cliente: '',
-    fecha: '',
-    total: '',
-    estado: 'Pendiente',
-    metodoPago: 'Efectivo'
-  };
-
-  const [formData, setFormData] = useState(initialFormState);
-
-  useEffect(() => {
-    if (ordenAEditar) {
-      setFormData({
-        cliente: ordenAEditar.cliente || '',
-        fecha: ordenAEditar.fecha || '',
-        total: ordenAEditar.total || '',
-        estado: ordenAEditar.estado || 'Pendiente',
-        metodoPago: ordenAEditar.metodoPago || 'Efectivo'
-      });
-    } else {
-      setFormData(initialFormState);
+  // El formulario se remonta con `key` distinto por registro (ver gestión), así que basta el estado inicial.
+  const [formData, setFormData] = useState(() => (
+    ordenAEditar ? {
+      cliente: ordenAEditar.cliente || '',
+      fecha: ordenAEditar.fecha || '',
+      total: ordenAEditar.total || '',
+      estado: ordenAEditar.estado || 'Pendiente',
+      metodoPago: ordenAEditar.metodoPago || 'Efectivo'
+    } : {
+      cliente: '',
+      fecha: '',
+      total: '',
+      estado: 'Pendiente',
+      metodoPago: 'Efectivo'
     }
-  }, [ordenAEditar]);
+  ));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,12 +29,13 @@ export function FormularioOrden({ ordenAEditar, onGuardar, onCancelar, guardando
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.cliente.trim() || !formData.total) {
-      alert('Completa el cliente y el total de la orden.');
+    const total = Number(formData.total);
+    if (!formData.cliente.trim() || !(total >= 0) || formData.total === '') {
+      alert('Completa el cliente y un total válido (mayor o igual a 0).');
       return;
     }
 
-    onGuardar(formData);
+    onGuardar({ ...formData, total });
   };
 
   const esEdicion = Boolean(ordenAEditar);
@@ -88,6 +82,8 @@ export function FormularioOrden({ ordenAEditar, onGuardar, onCancelar, guardando
             <label htmlFor="total" className="form-label">Total *</label>
             <input
               type="number"
+              min="0"
+              step="any"
               id="total"
               name="total"
               className="form-input"

@@ -1,3 +1,4 @@
+import { formatearPrecio } from '../../utils/formato';
 export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, cargando }) {
   if (cargando) {
     return <p className="loading-text">Cargando lista de productos...</p>;
@@ -39,7 +40,7 @@ export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, carg
                   {prod.imagen ? (
                     <img src={prod.imagen} alt={prod.nombre} className="table-thumb" />
                   ) : (
-                    <span className="table-thumb-placeholder">🍔</span>
+                    <span className="table-thumb-placeholder">🐠</span>
                   )}
                 </td>
                 <td className="td-name">
@@ -50,7 +51,7 @@ export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, carg
                   <span className="badge-category">{prod.categoria || 'Sin categoría'}</span>
                 </td>
                 <td className="td-price">
-                  {prod.precio?.startsWith?.('$') ? prod.precio : `$ ${prod.precio}`}
+                  {formatearPrecio(prod.precio)}
                 </td>
                 <td>
                   {prod.tag ? <span className="badge-tag">{prod.tag}</span> : <span className="text-muted">-</span>}

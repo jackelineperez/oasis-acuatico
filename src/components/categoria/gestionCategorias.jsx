@@ -6,6 +6,7 @@ import { crearCategoria, actualizarCategoria, eliminarCategoria } from '../../se
 export function GestionCategorias({ categorias = [], onActualizarCategorias, cargando }) {
   const [categoriaAEditar, setCategoriaAEditar] = useState(null);
   const [guardando, setGuardando] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
 
   const handleGuardar = (formData) => {
     setGuardando(true);
@@ -50,7 +51,9 @@ export function GestionCategorias({ categorias = [], onActualizarCategorias, car
   };
 
   const handleEliminar = (id) => {
+    if (eliminando) return;
     if (window.confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
+      setEliminando(true);
       eliminarCategoria(id)
         .then(() => {
           alert('Categoría eliminada con éxito');
@@ -62,7 +65,8 @@ export function GestionCategorias({ categorias = [], onActualizarCategorias, car
         .catch((err) => {
           console.error('Error al eliminar categoría:', err);
           alert('Error al eliminar la categoría');
-        });
+        })
+        .finally(() => setEliminando(false));
     }
   };
 
@@ -74,6 +78,7 @@ export function GestionCategorias({ categorias = [], onActualizarCategorias, car
       </div>
 
       <FormularioCategoria
+        key={categoriaAEditar?.id ?? 'nuevo'}
         categoriaAEditar={categoriaAEditar}
         onGuardar={handleGuardar}
         onCancelar={handleCancelarEditar}
