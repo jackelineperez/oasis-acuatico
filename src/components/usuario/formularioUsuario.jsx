@@ -1,31 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export function FormularioUsuario({ usuarioAEditar, onGuardar, onCancelar, guardando }) {
-  const initialFormState = {
-    nombre: '',
-    email: '',
-    telefono: '',
-    documento: '',
-    rol: 'Administrador',
-    estado: true
-  };
-
-  const [formData, setFormData] = useState(initialFormState);
-
-  useEffect(() => {
-    if (usuarioAEditar) {
-      setFormData({
-        nombre: usuarioAEditar.nombre || '',
-        email: usuarioAEditar.email || '',
-        telefono: usuarioAEditar.telefono || '',
-        documento: usuarioAEditar.documento || '',
-        rol: usuarioAEditar.rol || 'Administrador',
-        estado: usuarioAEditar.estado ?? true
-      });
-    } else {
-      setFormData(initialFormState);
+  // El formulario se remonta con `key` distinto por registro (ver gestión), así que basta el estado inicial.
+  const [formData, setFormData] = useState(() => (
+    usuarioAEditar ? {
+      nombre: usuarioAEditar.nombre || '',
+      email: usuarioAEditar.email || '',
+      telefono: usuarioAEditar.telefono || '',
+      documento: usuarioAEditar.documento || '',
+      clave: '',
+      // Solo existen dos roles; cualquier rol antiguo (p. ej. Vendedor) se muestra como Cliente.
+      rol: usuarioAEditar.rol === 'Administrador' ? 'Administrador' : 'Cliente',
+      estado: usuarioAEditar.estado ?? true
+    } : {
+      nombre: '',
+      email: '',
+      telefono: '',
+      documento: '',
+      clave: '',
+      rol: 'Cliente',
+      estado: true
     }
-  }, [usuarioAEditar]);
+  ));
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -122,6 +118,24 @@ export function FormularioUsuario({ usuarioAEditar, onGuardar, onCancelar, guard
           </div>
 
           <div className="form-group">
+            <label htmlFor="clave" className="form-label">
+              {esEdicion ? 'Nueva contraseña (opcional)' : 'Contraseña *'}
+            </label>
+            <input
+              type="password"
+              id="clave"
+              name="clave"
+              className="form-input"
+              placeholder={esEdicion ? 'Déjala vacía para conservar la actual' : 'Mínimo 6 caracteres'}
+              autoComplete="new-password"
+              minLength={6}
+              value={formData.clave}
+              onChange={handleChange}
+              required={!esEdicion}
+            />
+          </div>
+
+          <div className="form-group">
             <label htmlFor="rol" className="form-label">Rol</label>
             <select
               id="rol"
@@ -131,9 +145,7 @@ export function FormularioUsuario({ usuarioAEditar, onGuardar, onCancelar, guard
               onChange={handleChange}
             >
               <option value="Administrador">Administrador</option>
-              <option value="Vendedor">Vendedor</option>
               <option value="Cliente">Cliente</option>
-              <option value="Soporte">Soporte</option>
             </select>
           </div>
 
