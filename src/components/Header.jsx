@@ -1,12 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Menu } from './Menu';
 import { useAuth } from '../auth/useAuth';
+import { useCart } from '../context/CartContext';
 
 export function Header({
   categorias = [],
   categoriaActiva,
   onSelectCategoria,
-  cartCount = 0,
   sidebarAbierto = false,
   onToggleSidebar,
   onLogout
@@ -14,6 +14,7 @@ export function Header({
   const location = useLocation();
   const { usuario, esAdmin } = useAuth();
   const esCatalogo = location.pathname === '/';
+  const { totalItems, setIsCartOpen } = useCart();
 
   return (
     <header className="header-navbar">
@@ -48,10 +49,15 @@ export function Header({
 
         <div className="header-actions" style={{ gap: '12px' }}>
           {esCatalogo && (
-            <button className="cart-button">
+            <button
+              className="cart-button"
+              onClick={() => setIsCartOpen(true)}
+              aria-label="Abrir carrito de pedidos"
+              title="Ver mi carrito de pedidos"
+            >
               <span className="cart-icon" aria-hidden="true">🛒</span>
               <span className="cart-label">Mi Pedido</span>
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+              {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
             </button>
           )}
 

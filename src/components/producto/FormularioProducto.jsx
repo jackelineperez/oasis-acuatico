@@ -9,16 +9,17 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
     nombre: productoAEditar?.nombre || '',
     descripcion: productoAEditar?.descripcion || '',
     precio: productoAEditar?.precio ?? '',
+    stock: productoAEditar?.stock ?? 10,
     categoria: productoAEditar?.categoria || '',
     imagen: productoAEditar?.imagen || '',
     tag: productoAEditar?.tag || ''
   }));
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'number' ? (value === '' ? '' : Number(value)) : value
     }));
   };
 
@@ -31,7 +32,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
     }
     // Si las categorías cargaron después de abrir el formulario, usa la primera.
     const categoria = formData.categoria || (categorias[0] ? nombreCategoria(categorias[0]) : '');
-    onGuardar({ ...formData, precio, categoria });
+    onGuardar({ ...formData, precio, categoria, stock: Number(formData.stock) || 0 });
   };
 
   const esEdicion = Boolean(productoAEditar);
@@ -81,6 +82,22 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
             />
           </div>
 
+          {/* Stock */}
+          <div className="form-group">
+            <label htmlFor="stock" className="form-label">Stock Disponible (Unidades) *</label>
+            <input
+              type="number"
+              id="stock"
+              name="stock"
+              min="0"
+              className="form-input"
+              placeholder="Ej. 10"
+              value={formData.stock}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
           {/* Categoría */}
           <div className="form-group">
             <label htmlFor="categoria" className="form-label">Categoría</label>
@@ -112,7 +129,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
               id="tag"
               name="tag"
               className="form-input"
-              placeholder="Ej. Popular, Nuevo, Combo"
+              placeholder="Ej. Popular, Nuevo, Oferta"
               value={formData.tag}
               onChange={handleChange}
             />
@@ -127,7 +144,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
             id="imagen"
             name="imagen"
             className="form-input"
-            placeholder="https://ejemplo.com/imagen.jpg"
+            placeholder="https://ejemplo.com/pez.jpg"
             value={formData.imagen}
             onChange={handleChange}
           />
@@ -163,3 +180,4 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
     </div>
   );
 }
+

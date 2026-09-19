@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
+import { CartProvider, useCart } from './context/CartContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Sidebar } from './components/Sidebar';
+import { CartDrawer } from './components/cart/CartDrawer';
+import { CheckoutModal } from './components/cart/CheckoutModal';
+import { OrderReceiptModal } from './components/cart/OrderReceiptModal';
+import { ToastNotification } from './components/common/ToastNotification';
 import { CatalogoPage } from './pages/CatalogoPage';
 import { ProductosPage } from './pages/ProductosPage';
 import { CategoriaPage } from './pages/categoriaPage';
@@ -26,12 +31,11 @@ const normalizarLista = (data) => Array.isArray(data) ? data : [];
 const nombreCategoria = (c) => c.nombre || c.label;
 const esPantallaAncha = () => window.matchMedia('(min-width: 769px)').matches;
 
-function App() {
+function MainApp() {
   const { usuario, esAdmin, logout } = useAuth();
   const rol = usuario?.rol ?? null;
 
   const [categoriaActiva, setCategoriaActiva] = useState('Inicio');
-  const [cartCount, setCartCount] = useState(0);
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
@@ -46,6 +50,7 @@ function App() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { addToCart, completedOrder, setCompletedOrder } = useCart();
 
   // Carga un recurso; mantiene `cargando` mientras haya peticiones en curso y registra errores.
   const cargar = (nombre, obtener, setter) => {
@@ -99,12 +104,17 @@ function App() {
     setEstados([]);
     setErrores([]);
     setCategoriaActiva('Inicio');
-    setCartCount(0);
     setCargadoPara(null);
   };
 
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
+  const handleAddToCart = (producto) => {
+    addToCart(producto, 1);
+  };
+
+  const handleCompraFinalizada = () => {
+    cargarProductos();
+    cargarOrdenes();
+    cargarClientes();
   };
 
   const handleSeleccionarCategoriaFooter = (cat) => {
@@ -139,7 +149,6 @@ function App() {
         categorias={categoriasVisibles}
         categoriaActiva={categoriaActiva}
         onSelectCategoria={setCategoriaActiva}
-        cartCount={cartCount}
         sidebarAbierto={sidebarAbierto}
         onToggleSidebar={() => setSidebarAbierto((abierto) => !abierto)}
         onLogout={handleLogout}
@@ -266,7 +275,24 @@ function App() {
         categorias={categoriasVisibles}
         setCategoriaActiva={handleSeleccionarCategoriaFooter}
       />
+
+      {/* Cart & Checkout Elements */}
+      <CartDrawer />
+      <CheckoutModal onCompraFinalizada={handleCompraFinalizada} />
+      <OrderReceiptModal 
+        order={completedOrder} 
+        onClose={() => setCompletedOrder(null)} 
+      />
+      <ToastNotification />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <CartProvider>
+      <MainApp />
+    </CartProvider>
   );
 }
 

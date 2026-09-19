@@ -28,47 +28,60 @@ export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, carg
               <th>Nombre</th>
               <th>Categoría</th>
               <th>Precio</th>
+              <th>Stock</th>
               <th>Etiqueta</th>
               <th className="text-right">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {productos.map((prod) => (
-              <tr key={prod.id}>
-                <td className="td-id">#{prod.id}</td>
-                <td className="td-img">
-                  {prod.imagen ? (
-                    <img src={prod.imagen} alt={prod.nombre} className="table-thumb" />
-                  ) : (
-                    <span className="table-thumb-placeholder">🐠</span>
-                  )}
-                </td>
-                <td className="td-name">
-                  <strong>{prod.nombre}</strong>
-                  <p className="td-desc">{prod.descripcion}</p>
-                </td>
-                <td>
-                  <span className="badge-category">{prod.categoria || 'Sin categoría'}</span>
-                </td>
-                <td className="td-price">
-                  {formatearPrecio(prod.precio)}
-                </td>
-                <td>
-                  {prod.tag ? <span className="badge-tag">{prod.tag}</span> : <span className="text-muted">-</span>}
-                </td>
-                <td className="td-actions text-right">
-                  <button className="btn-action-edit" onClick={() => onEditar(prod)}>
-                    ✏️ Editar
-                  </button>
-                  <button className="btn-action-delete" onClick={() => onEliminar(prod.id)}>
-                    🗑️ Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {productos.map((prod) => {
+              const stockNum = prod.stock !== undefined && prod.stock !== null ? Number(prod.stock) : 0;
+              const estaAgotado = stockNum <= 0;
+              const pocoStock = stockNum > 0 && stockNum <= 3;
+
+              return (
+                <tr key={prod.id}>
+                  <td className="td-id">#{prod.id}</td>
+                  <td className="td-img">
+                    {prod.imagen ? (
+                      <img src={prod.imagen} alt={prod.nombre} className="table-thumb" />
+                    ) : (
+                      <span className="table-thumb-placeholder">🐟</span>
+                    )}
+                  </td>
+                  <td className="td-name">
+                    <strong>{prod.nombre}</strong>
+                    <p className="td-desc">{prod.descripcion}</p>
+                  </td>
+                  <td>
+                    <span className="badge-category">{prod.categoria || 'Sin categoría'}</span>
+                  </td>
+                  <td className="td-price">
+                    {formatearPrecio(prod.precio)}
+                  </td>
+                  <td>
+                    <span className={`badge-stock ${estaAgotado ? 'stock-zero' : pocoStock ? 'stock-low' : 'stock-ok'}`}>
+                      {estaAgotado ? '0 (Agotado)' : `${stockNum} unid.`}
+                    </span>
+                  </td>
+                  <td>
+                    {prod.tag ? <span className="badge-tag">{prod.tag}</span> : <span className="text-muted">-</span>}
+                  </td>
+                  <td className="td-actions text-right">
+                    <button className="btn-action-edit" onClick={() => onEditar(prod)}>
+                      ✏️ Editar
+                    </button>
+                    <button className="btn-action-delete" onClick={() => onEliminar(prod.id)}>
+                      🗑️ Eliminar
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
     </div>
   );
 }
+
