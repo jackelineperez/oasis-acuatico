@@ -286,13 +286,25 @@
 }
 
 .product-title {
-  border-bottom: 1px solid #bb21c0;
-  font-size: 1.1rem;
+ 
+  width: max-content;
+  max-width: 100%; 
+  
+  color: #235CE0;          
+    
+  border-bottom: 2px solid #0a5f73; 
+    
+  padding-bottom: 3px; 
+    
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 1.1rem; 
   font-weight: 700;
-  color: #235ce0;
-  line-height: 1.35;
+  margin-bottom: 12px;
+  
+  
+  background-color: transparent !important;
+  display: block; 
 }
-
 .product-description {
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -318,10 +330,11 @@
 }
 
 .price-label {
+  border-top: 1px solid #d3258a00;
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: #6a90a0;
+  color: #0c08e9;
   letter-spacing: 0.04em;
 }
 
@@ -414,6 +427,7 @@
 }
 
 .footer-heading {
+  border-bottom: 1px solid #bb21c0;
   font-size: 0.95rem;
   font-weight: 700;
   color: #0f172a;
@@ -496,16 +510,26 @@
 /* View Switcher Controls (Header & Admin Section) */
 .view-nav {
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  justify-content: space-between;
   gap: 6px;
   background-color: #f1f5f9;
   padding: 4px;
   border-radius: 12px;
 }
-
+.view-nav .view-btn {
+  flex: 1; 
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px; 
+  text-align: center;
+}
 .view-btn {
+  
   background: transparent;
-  border: none;
+  border: 1px solid #1b9ab7;
   font-family: var(--font-family);
   font-size: 0.875rem;
   font-weight: 700;
@@ -521,6 +545,12 @@
 }
 
 .view-btn.active {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border: 1px solid #1b9ab7;
   background-color: #ffffff;
   color: #1b9ab7;
   box-shadow: var(--shadow-sm);
