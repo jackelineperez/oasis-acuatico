@@ -21,7 +21,7 @@ export function Footer({ categorias = [], setCategoriaActiva }) {
 
             <div className="footer-column">
               <h4 className="footer-heading">Contacto & Horarios</h4>
-              <p className="footer-info">📍 Av. Principal #123, Ciudad</p>
+              <p className="footer-info">📍 Calle 14 4-75 , Ciudad de Cucuta-centro</p>
               <p className="footer-info">🕒 Lunes a Domingo: 11:00 AM - 10:00 PM</p>
               <p className="footer-info">📞 +57 3170123652</p>
             </div>
@@ -29,7 +29,7 @@ export function Footer({ categorias = [], setCategoriaActiva }) {
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} OasisAcuatico. Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} OasisAcuatico. Calidad, bienestar y estilo para tu acuario.</p>
         </div>
       </footer>
         </>

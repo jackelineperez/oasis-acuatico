@@ -1,18 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg-color: #f8fafc;
-  --surface-color: #ffffff;
+  --bg-color: #ebf9fb;
+  --surface-color: #f7fdff;
   --card-bg: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
-  --primary-blue: #0284c7;
-  --primary-hover: #0369a1;
+  --text-main: #0a3d4d;
+  --text-muted: #507385;
+  --border-color: #bfe6eb;
+  --primary-blue: #1b9ab7;
+  --primary-hover: #127b94;
+  --accent-sea: #7ad7d8;
+  --accent-coral: #ff9a74;
   --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.06), 0 2px 6px -2px rgb(0 0 0 / 0.04);
-  --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.08), 0 4px 8px -2px rgb(0 0 0 / 0.04);
+  --shadow-sm: 0 1px 3px 0 rgb(11 74 88 / 0.08);
+  --shadow-md: 0 4px 12px -2px rgb(11 74 88 / 0.12), 0 2px 6px -2px rgb(11 74 88 / 0.08);
+  --shadow-lg: 0 12px 24px -4px rgb(11 74 88 / 0.14), 0 4px 8px -2px rgb(11 74 88 / 0.08);
 }
 
 * {

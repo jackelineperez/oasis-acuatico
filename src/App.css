@@ -11,11 +11,11 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: rgba(255, 255, 255, 0.92);
+  background-color: rgba(245, 252, 255, 0.94);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 20px -2px rgba(16, 85, 103, 0.08);
 }
 
 .header-inner {
@@ -39,14 +39,14 @@
 .brand-logo {
   width: 38px;
   height: 38px;
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  background: linear-gradient(135deg, #1ab0c9 0%, #0c6d88 100%);
   color: #ffffff;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+  box-shadow: 0 4px 10px rgba(26, 176, 201, 0.28);
 }
 
 .brand-name {
@@ -57,7 +57,7 @@
 }
 
 .brand-highlight {
-  color: #0284c7;
+  color: #1b9ab7;
 }
 
 /* Nav Categories Pills */
@@ -94,9 +94,9 @@
 }
 
 .category-pill.active {
-  background-color: #0f172a;
+  background: linear-gradient(135deg, #0a617b 0%, #1d9ab7 100%);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 4px 12px rgba(18, 112, 136, 0.2);
 }
 
 /* Header Cart Action */
@@ -130,7 +130,7 @@
 }
 
 .cart-badge {
-  background-color: #0284c7;
+  background-color: #1b9ab7;
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 700;
@@ -151,8 +151,8 @@
 
 /* Hero Banner */
 .hero-banner {
-  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #effdff 0%, #def4f7 100%);
+  border: 1px solid #cfeaf0;
   border-radius: 20px;
   padding: 36px 32px;
   display: flex;
@@ -163,8 +163,8 @@
 }
 
 .banner-badge {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: #dffaf1;
+  color: #0e6d6a;
   font-size: 0.8rem;
   font-weight: 700;
   padding: 4px 12px;
@@ -256,7 +256,7 @@
   top: 12px;
   left: 12px;
   z-index: 2;
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(9, 62, 76, 0.82);
   backdrop-filter: blur(4px);
   color: #ffffff;
   font-size: 0.725rem;
@@ -319,7 +319,7 @@
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: #6a90a0;
   letter-spacing: 0.04em;
 }
 
@@ -334,7 +334,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: #0f172a;
+  background: linear-gradient(135deg, #0a5f73 0%, #1a9ab6 100%);
   color: #ffffff;
   border: none;
   font-family: var(--font-family);
@@ -348,9 +348,9 @@
 }
 
 .btn-add-order:hover {
-  background-color: #0284c7;
+  background: linear-gradient(135deg, #0d7d95 0%, #2db1c9 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+  box-shadow: 0 4px 12px rgba(30, 154, 183, 0.32);
 }
 
 .btn-add-order:active {
@@ -365,7 +365,7 @@
 /* Footer Styling (inline in App.jsx) */
 .app-footer {
   margin-top: auto;
-  background-color: #ffffff;
+  background: linear-gradient(180deg, #f5fdff 0%, #edf9fb 100%);
   border-top: 1px solid var(--border-color);
   width: 100%;
 }
@@ -438,7 +438,7 @@
 }
 
 .footer-list button:hover {
-  color: #0284c7;
+  color: #1b9ab7;
 }
 
 .footer-info {
@@ -520,7 +520,7 @@
 
 .view-btn.active {
   background-color: #ffffff;
-  color: #0284c7;
+  color: #1b9ab7;
   box-shadow: var(--shadow-sm);
 }
 
@@ -546,8 +546,8 @@
 
 /* Form Card Styling */
 .card-form-container {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
+  background-color: #f9feff;
+  border: 1px solid #d0edf1;
   border-radius: 18px;
   padding: 28px;
   box-shadow: var(--shadow-sm);
@@ -608,9 +608,9 @@
 }
 
 .form-input:focus {
-  border-color: #0284c7;
+  border-color: #1b9ab7;
   background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  box-shadow: 0 0 0 3px rgba(27, 154, 183, 0.15);
 }
 
 .form-textarea {
@@ -625,7 +625,7 @@
 }
 
 .btn-save {
-  background-color: #0284c7;
+  background: linear-gradient(135deg, #0a6d82 0%, #1c9ec0 100%);
   color: #ffffff;
   border: none;
   font-family: var(--font-family);
@@ -638,15 +638,15 @@
 }
 
 .btn-save:hover {
-  background-color: #0369a1;
+  background: linear-gradient(135deg, #0d5f71 0%, #2cafcf 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+  box-shadow: 0 4px 12px rgba(24, 152, 181, 0.26);
 }
 
 .btn-cancel {
-  background-color: #f1f5f9;
-  color: #64748b;
-  border: 1px solid #cbd5e1;
+  background-color: #edf9fb;
+  color: #4f7181;
+  border: 1px solid #c8e6ef;
   font-family: var(--font-family);
   font-size: 0.9rem;
   font-weight: 600;
@@ -657,8 +657,8 @@
 }
 
 .btn-cancel:hover {
-  background-color: #e2e8f0;
-  color: #0f172a;
+  background-color: #dfeef3;
+  color: #0a3d4d;
 }
 
 /* Admin Table Container */
@@ -725,7 +725,7 @@
 
 .td-id {
   font-weight: 700;
-  color: #94a3b8;
+  color: #7895a6;
 }
 
 .td-img {
@@ -746,7 +746,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f1f5f9;
+  background: linear-gradient(135deg, #e5fbff 0%, #d9f2f5 100%);
   border-radius: 8px;
   font-size: 1.5rem;
 }
@@ -772,8 +772,8 @@
 }
 
 .badge-category {
-  background-color: #e0f2fe;
-  color: #0369a1;
+  background-color: #dff8ff;
+  color: #0c6981;
   font-size: 0.775rem;
   font-weight: 700;
   padding: 4px 10px;
@@ -781,8 +781,8 @@
 }
 
 .badge-tag {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: #fff0e1;
+  color: #b56238;
   font-size: 0.75rem;
   font-weight: 700;
   padding: 3px 8px;
@@ -810,9 +810,9 @@
 }
 
 .btn-action-edit:hover {
-  background-color: #e2e8f0;
-  border-color: #0284c7;
-  color: #0284c7;
+  background-color: #eafafc;
+  border-color: #1b9ab7;
+  color: #1b9ab7;
 }
 
 .btn-action-delete {
