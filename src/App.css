@@ -50,6 +50,7 @@
 }
 
 .brand-name {
+  border-bottom: 1px solid #eb45ab;
   font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -256,7 +257,7 @@
   top: 12px;
   left: 12px;
   z-index: 2;
-  background: rgba(9, 62, 76, 0.82);
+  background: rgba(6, 190, 241, 0.82);
   backdrop-filter: blur(4px);
   color: #ffffff;
   font-size: 0.725rem;
@@ -285,9 +286,10 @@
 }
 
 .product-title {
+  border-bottom: 1px solid #bb21c0;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #0f172a;
+  color: #235ce0;
   line-height: 1.35;
 }
 
