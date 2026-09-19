@@ -6,6 +6,7 @@ import { crearEstadoOrden, actualizarEstadoOrden, eliminarEstadoOrden } from '..
 export function GestionEstadosOrden({ estados = [], onActualizarEstados, cargando }) {
   const [estadoAEditar, setEstadoAEditar] = useState(null);
   const [guardando, setGuardando] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
 
   const handleGuardar = (formData) => {
     setGuardando(true);
@@ -50,7 +51,9 @@ export function GestionEstadosOrden({ estados = [], onActualizarEstados, cargand
   };
 
   const handleEliminar = (id) => {
+    if (eliminando) return;
     if (window.confirm('¿Estás seguro de que deseas eliminar este estado?')) {
+      setEliminando(true);
       eliminarEstadoOrden(id)
         .then(() => {
           alert('Estado eliminado con éxito');
@@ -62,7 +65,8 @@ export function GestionEstadosOrden({ estados = [], onActualizarEstados, cargand
         .catch((err) => {
           console.error('Error al eliminar estado:', err);
           alert('Error al eliminar el estado');
-        });
+        })
+        .finally(() => setEliminando(false));
     }
   };
 
@@ -74,6 +78,7 @@ export function GestionEstadosOrden({ estados = [], onActualizarEstados, cargand
       </div>
 
       <FormularioEstadoOrden
+        key={estadoAEditar?.id ?? 'nuevo'}
         estadoAEditar={estadoAEditar}
         onGuardar={handleGuardar}
         onCancelar={handleCancelarEditar}

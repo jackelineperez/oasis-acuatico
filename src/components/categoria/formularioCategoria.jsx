@@ -1,25 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export function FormularioCategoria({ categoriaAEditar, onGuardar, onCancelar, guardando }) {
-  const initialFormState = {
-    nombre: '',
-    descripcion: '',
-    estado: true
-  };
-
-  const [formData, setFormData] = useState(initialFormState);
-
-  useEffect(() => {
-    if (categoriaAEditar) {
-      setFormData({
-        nombre: categoriaAEditar.nombre || '',
-        descripcion: categoriaAEditar.descripcion || '',
-        estado: categoriaAEditar.estado ?? true
-      });
-    } else {
-      setFormData(initialFormState);
+  // El formulario se remonta con `key` distinto por registro (ver gestión), así que basta el estado inicial.
+  const [formData, setFormData] = useState(() => (
+    categoriaAEditar ? {
+      nombre: categoriaAEditar.nombre || '',
+      descripcion: categoriaAEditar.descripcion || '',
+      estado: categoriaAEditar.estado ?? true
+    } : {
+      nombre: '',
+      descripcion: '',
+      estado: true
     }
-  }, [categoriaAEditar]);
+  ));
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

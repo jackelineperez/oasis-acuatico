@@ -1,3 +1,5 @@
+import { formatearPrecio } from '../utils/formato';
+
 export function Product({ indice, id, nombre, descripcion, precio, imagen, tag, stock, categoria, onAddToCart }) {
     const prodId = id || indice;
     const stockNum = stock !== undefined && stock !== null ? Number(stock) : 10;
@@ -20,15 +22,6 @@ export function Product({ indice, id, nombre, descripcion, precio, imagen, tag, 
         if (onAddToCart) {
             onAddToCart(productoData);
         }
-    };
-
-    const formatPrice = (val) => {
-        if (!val && val !== 0) return '$ 0';
-        if (typeof val === 'number') return `$ ${val.toLocaleString('es-CO')}`;
-        const str = String(val);
-        if (str.startsWith('$')) return str;
-        const num = parseFloat(str.replace(/[^0-9.-]+/g, ''));
-        return isNaN(num) ? `$ ${str}` : `$ ${num.toLocaleString('es-CO')}`;
     };
 
     return (
@@ -56,7 +49,7 @@ export function Product({ indice, id, nombre, descripcion, precio, imagen, tag, 
                 <div className="product-footer">
                     <div className="price-wrapper">
                         <span className="price-label">Precio</span>
-                        <span className="product-price">{formatPrice(precio)}</span>
+                        <span className="product-price">{formatearPrecio(precio)}</span>
                     </div>
                     <button 
                         className={`btn-add-order ${estaAgotado ? 'btn-disabled' : ''}`} 

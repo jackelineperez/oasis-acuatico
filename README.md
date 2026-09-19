@@ -132,7 +132,6 @@ La URL de la API está escrita directamente en cada archivo de `src/services/`. 
 - El carrito solo cuenta clics; no guarda productos ni genera pedidos.
 - Los servicios no validan `response.ok`, así que un error HTTP se trata como datos.
 - Sin pruebas automatizadas.
-- El nombre del paquete (`quickorder`) y el título de `index.html` ("QuickOrder") quedaron de una versión anterior; la marca actual es Oasis Acuático.
 
 ## Licencia
 

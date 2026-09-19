@@ -1,3 +1,4 @@
+import { formatearPrecio } from '../../utils/formato';
 export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, cargando }) {
   if (cargando) {
     return <p className="loading-text">Cargando lista de productos...</p>;
@@ -10,15 +11,6 @@ export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, carg
       </div>
     );
   }
-
-  const formatPrice = (val) => {
-    if (!val && val !== 0) return '$ 0';
-    if (typeof val === 'number') return `$ ${val.toLocaleString('es-CO')}`;
-    const str = String(val);
-    if (str.startsWith('$')) return str;
-    const num = parseFloat(str.replace(/[^0-9.-]+/g, ''));
-    return isNaN(num) ? `$ ${str}` : `$ ${num.toLocaleString('es-CO')}`;
-  };
 
   return (
     <div className="admin-table-container">
@@ -65,7 +57,7 @@ export function ListaProductosAdmin({ productos = [], onEditar, onEliminar, carg
                     <span className="badge-category">{prod.categoria || 'Sin categoría'}</span>
                   </td>
                   <td className="td-price">
-                    {formatPrice(prod.precio)}
+                    {formatearPrecio(prod.precio)}
                   </td>
                   <td>
                     <span className={`badge-stock ${estaAgotado ? 'stock-zero' : pocoStock ? 'stock-low' : 'stock-ok'}`}>

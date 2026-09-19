@@ -1,33 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
+const nombreCategoria = (c) => c.nombre || c.label;
+
+// El formulario se monta con `key` distinto por producto (ver GestionProductos),
+// así que el estado inicial se calcula una sola vez sin necesidad de useEffect.
 export function FormularioProducto({ productoAEditar, categorias = [], onGuardar, onCancelar, guardando }) {
-  const initialFormState = {
-    nombre: '',
-    descripcion: '',
-    precio: '',
-    stock: 10,
-    categoria: categorias.length > 0 ? (categorias[0].nombre || categorias[0].label) : 'Peces Betta',
-    imagen: '',
-    tag: ''
-  };
-
-  const [formData, setFormData] = useState(initialFormState);
-
-  useEffect(() => {
-    if (productoAEditar) {
-      setFormData({
-        nombre: productoAEditar.nombre || '',
-        descripcion: productoAEditar.descripcion || '',
-        precio: productoAEditar.precio || '',
-        stock: productoAEditar.stock !== undefined ? productoAEditar.stock : 10,
-        categoria: productoAEditar.categoria || (categorias[0]?.nombre || 'Peces Betta'),
-        imagen: productoAEditar.imagen || '',
-        tag: productoAEditar.tag || ''
-      });
-    } else {
-      setFormData(initialFormState);
-    }
-  }, [productoAEditar]);
+  const [formData, setFormData] = useState(() => ({
+    nombre: productoAEditar?.nombre || '',
+    descripcion: productoAEditar?.descripcion || '',
+    precio: productoAEditar?.precio ?? '',
+    stock: productoAEditar?.stock ?? 10,
+    categoria: productoAEditar?.categoria || '',
+    imagen: productoAEditar?.imagen || '',
+    tag: productoAEditar?.tag || ''
+  }));
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -39,14 +25,14 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.nombre.trim() || formData.precio === '') {
-      alert('Por favor completa el nombre y el precio del producto.');
+    const precio = Number(String(formData.precio).replace(/[^\d.]/g, ''));
+    if (!formData.nombre.trim() || !(precio > 0)) {
+      alert('Por favor completa el nombre y un precio válido del producto.');
       return;
     }
-    onGuardar({
-      ...formData,
-      stock: Number(formData.stock) || 0
-    });
+    // Si las categorías cargaron después de abrir el formulario, usa la primera.
+    const categoria = formData.categoria || (categorias[0] ? nombreCategoria(categorias[0]) : '');
+    onGuardar({ ...formData, precio, categoria, stock: Number(formData.stock) || 0 });
   };
 
   const esEdicion = Boolean(productoAEditar);
@@ -72,7 +58,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
               id="nombre"
               name="nombre"
               className="form-input"
-              placeholder="Ej. Pez Betta Halfmoon"
+              placeholder="Ej. Pez Betta Azul"
               value={formData.nombre}
               onChange={handleChange}
               required
@@ -83,11 +69,13 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
           <div className="form-group">
             <label htmlFor="precio" className="form-label">Precio ($) *</label>
             <input
-              type="text"
+              type="number"
+              min="0"
+              step="any"
               id="precio"
               name="precio"
               className="form-input"
-              placeholder="Ej. 25000"
+              placeholder="Ej. 18500"
               value={formData.precio}
               onChange={handleChange}
               required
@@ -117,7 +105,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
               id="categoria"
               name="categoria"
               className="form-input"
-              value={formData.categoria}
+              value={formData.categoria || (categorias[0] ? nombreCategoria(categorias[0]) : '')}
               onChange={handleChange}
             >
               {categorias.length > 0 ? (
@@ -128,14 +116,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
                     return <option key={c.id} value={val}>{val}</option>;
                   })
               ) : (
-                <>
-                  <option value="Peces Betta">Peces Betta</option>
-                  <option value="Peces Goldfish & Orandas">Peces Goldfish & Orandas</option>
-                  <option value="Peces Guppy">Peces Guppy</option>
-                  <option value="Acuarios & Peceras">Acuarios & Peceras</option>
-                  <option value="Alimento & Vitaminas">Alimento & Vitaminas</option>
-                  <option value="Filtros & Bombas">Filtros & Bombas</option>
-                </>
+                <option value="">Sin categorías disponibles</option>
               )}
             </select>
           </div>
@@ -176,7 +157,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
             id="descripcion"
             name="descripcion"
             className="form-input form-textarea"
-            placeholder="Detalles sobre el pez, cuidados, tamaño o especificaciones..."
+            placeholder="Detalles sobre las características del producto..."
             rows="3"
             value={formData.descripcion}
             onChange={handleChange}

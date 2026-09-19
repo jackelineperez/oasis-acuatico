@@ -6,6 +6,7 @@ import { crearCliente, actualizarCliente, eliminarCliente } from '../../services
 export function GestionClientes({ clientes = [], onActualizarClientes, cargando }) {
   const [clienteAEditar, setClienteAEditar] = useState(null);
   const [guardando, setGuardando] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
 
   const handleGuardar = (formData) => {
     setGuardando(true);
@@ -50,7 +51,9 @@ export function GestionClientes({ clientes = [], onActualizarClientes, cargando 
   };
 
   const handleEliminar = (id) => {
+    if (eliminando) return;
     if (window.confirm('¿Estás seguro de que deseas eliminar este cliente?')) {
+      setEliminando(true);
       eliminarCliente(id)
         .then(() => {
           alert('Cliente eliminado con éxito');
@@ -62,7 +65,8 @@ export function GestionClientes({ clientes = [], onActualizarClientes, cargando 
         .catch((err) => {
           console.error('Error al eliminar cliente:', err);
           alert('Error al eliminar el cliente');
-        });
+        })
+        .finally(() => setEliminando(false));
     }
   };
 
@@ -74,6 +78,7 @@ export function GestionClientes({ clientes = [], onActualizarClientes, cargando 
       </div>
 
       <FormularioCliente
+        key={clienteAEditar?.id ?? 'nuevo'}
         clienteAEditar={clienteAEditar}
         onGuardar={handleGuardar}
         onCancelar={handleCancelarEditar}
