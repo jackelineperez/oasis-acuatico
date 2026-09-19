@@ -5,7 +5,8 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
     nombre: '',
     descripcion: '',
     precio: '',
-    categoria: categorias.length > 0 ? (categorias[0].nombre || categorias[0].label) : 'Hamburguesas',
+    stock: 10,
+    categoria: categorias.length > 0 ? (categorias[0].nombre || categorias[0].label) : 'Peces Betta',
     imagen: '',
     tag: ''
   };
@@ -18,7 +19,8 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
         nombre: productoAEditar.nombre || '',
         descripcion: productoAEditar.descripcion || '',
         precio: productoAEditar.precio || '',
-        categoria: productoAEditar.categoria || (categorias[0]?.nombre || 'Hamburguesas'),
+        stock: productoAEditar.stock !== undefined ? productoAEditar.stock : 10,
+        categoria: productoAEditar.categoria || (categorias[0]?.nombre || 'Peces Betta'),
         imagen: productoAEditar.imagen || '',
         tag: productoAEditar.tag || ''
       });
@@ -28,20 +30,23 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
   }, [productoAEditar]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'number' ? (value === '' ? '' : Number(value)) : value
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.nombre.trim() || !formData.precio) {
+    if (!formData.nombre.trim() || formData.precio === '') {
       alert('Por favor completa el nombre y el precio del producto.');
       return;
     }
-    onGuardar(formData);
+    onGuardar({
+      ...formData,
+      stock: Number(formData.stock) || 0
+    });
   };
 
   const esEdicion = Boolean(productoAEditar);
@@ -67,7 +72,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
               id="nombre"
               name="nombre"
               className="form-input"
-              placeholder="Ej. Hamburguesa Doble Queso"
+              placeholder="Ej. Pez Betta Halfmoon"
               value={formData.nombre}
               onChange={handleChange}
               required
@@ -82,8 +87,24 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
               id="precio"
               name="precio"
               className="form-input"
-              placeholder="Ej. 18500 o $18.500"
+              placeholder="Ej. 25000"
               value={formData.precio}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Stock */}
+          <div className="form-group">
+            <label htmlFor="stock" className="form-label">Stock Disponible (Unidades) *</label>
+            <input
+              type="number"
+              id="stock"
+              name="stock"
+              min="0"
+              className="form-input"
+              placeholder="Ej. 10"
+              value={formData.stock}
               onChange={handleChange}
               required
             />
@@ -108,10 +129,12 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
                   })
               ) : (
                 <>
-                  <option value="Hamburguesas">Hamburguesas</option>
-                  <option value="Perros Calientes">Perros Calientes</option>
-                  <option value="Salchipapas">Salchipapas</option>
-                  <option value="Bebidas">Bebidas</option>
+                  <option value="Peces Betta">Peces Betta</option>
+                  <option value="Peces Goldfish & Orandas">Peces Goldfish & Orandas</option>
+                  <option value="Peces Guppy">Peces Guppy</option>
+                  <option value="Acuarios & Peceras">Acuarios & Peceras</option>
+                  <option value="Alimento & Vitaminas">Alimento & Vitaminas</option>
+                  <option value="Filtros & Bombas">Filtros & Bombas</option>
                 </>
               )}
             </select>
@@ -125,7 +148,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
               id="tag"
               name="tag"
               className="form-input"
-              placeholder="Ej. Popular, Nuevo, Combo"
+              placeholder="Ej. Popular, Nuevo, Oferta"
               value={formData.tag}
               onChange={handleChange}
             />
@@ -140,7 +163,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
             id="imagen"
             name="imagen"
             className="form-input"
-            placeholder="https://ejemplo.com/imagen.jpg"
+            placeholder="https://ejemplo.com/pez.jpg"
             value={formData.imagen}
             onChange={handleChange}
           />
@@ -153,7 +176,7 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
             id="descripcion"
             name="descripcion"
             className="form-input form-textarea"
-            placeholder="Detalles sobre los ingredientes o características del producto..."
+            placeholder="Detalles sobre el pez, cuidados, tamaño o especificaciones..."
             rows="3"
             value={formData.descripcion}
             onChange={handleChange}
@@ -176,3 +199,4 @@ export function FormularioProducto({ productoAEditar, categorias = [], onGuardar
     </div>
   );
 }
+
