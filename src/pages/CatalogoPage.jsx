@@ -30,12 +30,15 @@ export function CatalogoPage({ productos, categoriaActiva = "Inicio", onAddToCar
           productosFiltrados.map((producto) => (
             <Product
               key={producto.id}
+              id={producto.id}
               indice={producto.id}
               nombre={producto.nombre}
               descripcion={producto.descripcion}
               precio={producto.precio}
               imagen={producto.imagen}
               tag={producto.tag}
+              stock={producto.stock}
+              categoria={producto.categoria}
               onAddToCart={onAddToCart}
             />
           ))
@@ -44,3 +47,4 @@ export function CatalogoPage({ productos, categoriaActiva = "Inicio", onAddToCar
     </>
   );
 }
+

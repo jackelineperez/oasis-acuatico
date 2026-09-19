@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
+import { CartProvider, useCart } from './context/CartContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { CartDrawer } from './components/cart/CartDrawer';
+import { CheckoutModal } from './components/cart/CheckoutModal';
+import { OrderReceiptModal } from './components/cart/OrderReceiptModal';
+import { ToastNotification } from './components/common/ToastNotification';
 import { CatalogoPage } from './pages/CatalogoPage';
 import { ProductosPage } from './pages/ProductosPage';
 import { CategoriaPage } from './pages/categoriaPage';
@@ -20,9 +25,8 @@ import { obtenerEstadosOrden } from './services/estadoOrdenService';
 
 const normalizarLista = (data) => Array.isArray(data) ? data : [];
 
-function App() {
+function MainApp() {
   const [categoriaActiva, setCategoriaActiva] = useState('Inicio');
-  const [cartCount, setCartCount] = useState(0);
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
@@ -32,6 +36,7 @@ function App() {
   const [cargando, setCargando] = useState(true);
 
   const navigate = useNavigate();
+  const { addToCart, completedOrder, setCompletedOrder } = useCart();
 
   const cargarProductos = () => {
     setCargando(true);
@@ -111,8 +116,14 @@ function App() {
     cargarEstados();
   }, []);
 
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
+  const handleAddToCart = (producto) => {
+    addToCart(producto, 1);
+  };
+
+  const handleCompraFinalizada = () => {
+    cargarProductos();
+    cargarOrdenes();
+    cargarClientes();
   };
 
   const handleSeleccionarCategoriaFooter = (cat) => {
@@ -126,7 +137,6 @@ function App() {
         categorias={categorias}
         categoriaActiva={categoriaActiva} 
         onSelectCategoria={setCategoriaActiva}
-        cartCount={cartCount}
       />
 
       <main className="app-container">
@@ -218,7 +228,24 @@ function App() {
         categorias={categorias}
         setCategoriaActiva={handleSeleccionarCategoriaFooter}
       />
+
+      {/* Cart & Checkout Elements */}
+      <CartDrawer />
+      <CheckoutModal onCompraFinalizada={handleCompraFinalizada} />
+      <OrderReceiptModal 
+        order={completedOrder} 
+        onClose={() => setCompletedOrder(null)} 
+      />
+      <ToastNotification />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <CartProvider>
+      <MainApp />
+    </CartProvider>
   );
 }
 
