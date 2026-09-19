@@ -5,6 +5,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { CatalogoPage } from './pages/CatalogoPage';
 import { ProductosPage } from './pages/ProductosPage';
+import { CategoriaPage } from './pages/categoriaPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { UsuariosPage } from './pages/usuarioPage';
 import { ClientePage } from './pages/clientePage';
@@ -43,6 +44,17 @@ function App() {
         console.error('Error al obtener los productos:', error);
         setProductos([]);
         setCargando(false);
+      });
+  };
+
+  const cargarCategorias = () => {
+    obtenerCategorias()
+      .then((data) => {
+        setCategorias(normalizarLista(data));
+      })
+      .catch((error) => {
+        console.error('Error al obtener las categorías:', error);
+        setCategorias([]);
       });
   };
 
@@ -92,19 +104,11 @@ function App() {
 
   useEffect(() => {
     cargarProductos();
+    cargarCategorias();
     cargarUsuarios();
     cargarClientes();
     cargarOrdenes();
     cargarEstados();
-
-    obtenerCategorias()
-      .then((data) => {
-        setCategorias(normalizarLista(data));
-      })
-      .catch((error) => {
-        console.error('Error al obtener las categorías:', error);
-        setCategorias([]);
-      });
   }, []);
 
   const handleAddToCart = () => {
@@ -146,6 +150,17 @@ function App() {
                 productos={productos}
                 categorias={categorias}
                 onActualizarProductos={cargarProductos}
+                cargando={cargando}
+              />
+            } 
+          />
+
+          <Route 
+            path="/categorias" 
+            element={
+              <CategoriaPage 
+                categorias={categorias}
+                onActualizarCategorias={cargarCategorias}
                 cargando={cargando}
               />
             } 
