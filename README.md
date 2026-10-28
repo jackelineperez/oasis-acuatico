@@ -1,35 +1,27 @@
-# 🐟 Oasis Acuático
+# 🐟 Oasis Acuático — Demo segura
 
-Aplicación web de catálogo y administración para una tienda de productos acuáticos. Combina una **vitrina pública** (catálogo filtrable por categoría) con un **panel de administración** para gestionar productos, usuarios, clientes, órdenes y estados de orden.
+Catálogo de demostración de peces y accesorios para acuarios, construido con React y Vite. La aplicación permite explorar productos, filtrarlos por categoría y simular un pedido sin iniciar sesión ni facilitar datos personales.
 
-Es un frontend de página única (SPA) construido con React y Vite que consume una API REST simulada con [MockAPI](https://mockapi.io).
+## Alcance de la demo
 
-## Características
-
-- **Catálogo** con banner, tarjetas de producto, etiquetas (`tag`) y filtrado por categoría desde el menú superior o el pie de página.
-- **Contador del carrito** en la cabecera al pulsar "Agregar" (por ahora solo es un contador, no hay checkout).
-- **CRUD completo** (listar, crear, editar, eliminar) para:
-  - Productos
-  - Usuarios (con rol y estado)
-  - Clientes (contacto, documento, dirección, estado)
-  - Órdenes (cliente, fecha, total, estado, método de pago)
-  - Estados de orden (nombre, color, descripción)
-- Estados de carga y manejo de errores de red: si una petición falla, la lista queda vacía y el error se registra en consola.
-- Página 404 para rutas desconocidas.
+- Catálogo público con filtros por categoría.
+- Carrito temporal en memoria del navegador.
+- Simulación de pedido y comprobante ficticio generados localmente.
+- Sin inicio de sesión, panel de administración, registro de clientes ni formularios de contacto.
+- Sin captura de nombre, teléfono, correo, dirección, notas de entrega ni método de pago.
+- La simulación no crea pedidos en servicios remotos, no procesa pagos y no modifica inventario.
+- El carrito y el comprobante no se guardan en `localStorage`; se pierden al recargar o cerrar la página.
 
 ## Tecnologías
 
-| Herramienta | Uso |
-| --- | --- |
-| [React 19](https://react.dev) | Interfaz de usuario |
-| [React Router 7](https://reactrouter.com) | Enrutamiento del lado del cliente |
-| [Vite 8](https://vite.dev) + `@vitejs/plugin-react` | Servidor de desarrollo y build |
-| [Oxlint](https://oxc.rs) | Linter |
-| MockAPI | Backend REST simulado |
+- React 19
+- React Router 7
+- Vite 8
+- Oxlint
 
 ## Requisitos
 
-- [Node.js](https://nodejs.org) (versión LTS reciente)
+- Node.js LTS reciente
 - npm
 
 ## Inicio rápido
@@ -41,98 +33,48 @@ npm install
 npm run dev
 ```
 
-La app queda disponible en `http://localhost:5173`.
+Abre la dirección local indicada por Vite, normalmente `http://localhost:5173`.
 
 ## Scripts
 
 | Comando | Descripción |
 | --- | --- |
-| `npm run dev` | Inicia el servidor de desarrollo con HMR |
-| `npm run build` | Genera el build de producción en `dist/` |
-| `npm run preview` | Sirve localmente el build de producción |
-| `npm run lint` | Ejecuta Oxlint sobre el proyecto |
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Genera `dist/` |
+| `npm run preview` | Previsualiza el build |
+| `npm run lint` | Ejecuta Oxlint |
 
-## Rutas
+## Datos y privacidad
 
-| Ruta | Página | Descripción |
-| --- | --- | --- |
-| `/` | `CatalogoPage` | Catálogo público con filtro por categoría |
-| `/productos` | `ProductosPage` | Administración de productos |
-| `/usuarios` | `UsuariosPage` | Administración de usuarios |
-| `/clientes` | `ClientePage` | Administración de clientes |
-| `/ordenes` | `OrdenPage` | Administración de órdenes |
-| `/estados-orden` | `EstadoOrdenPage` | Administración de estados de orden |
-| `*` | `NotFoundPage` | Página no encontrada |
+El catálogo sigue leyendo productos y categorías desde los servicios configurados en `src/services/`, que actualmente apuntan a una API de demostración de MockAPI. Esos datos del catálogo no son datos introducidos por quien visita la demo.
 
-> Las rutas de administración no tienen autenticación: cualquiera que conozca la URL puede acceder a ellas.
+El flujo de pedido se ejecuta únicamente en el estado de React del navegador. No hace solicitudes para crear órdenes o clientes, no descuenta stock y no solicita información personal. La información del carrito se mantiene solo mientras la página está abierta.
 
-## Estructura del proyecto
+Esta aplicación es una **demo pública, no un sistema de comercio electrónico de producción**. No debe usarse para compras, pagos ni datos reales. No hay backend de autenticación ni administración expuesto por esta interfaz.
+
+## Estructura principal
 
 ```
-oasis-acuatico/
-├── index.html
-├── vite.config.js
-├── .oxlintrc.json
-├── public/                  # favicon y sprites de iconos
-└── src/
-    ├── main.jsx             # Punto de entrada (StrictMode + BrowserRouter)
-    ├── App.jsx              # Estado global, carga de datos y rutas
-    ├── App.css / index.css  # Estilos
-    ├── pages/               # Una página por ruta
-    ├── components/
-    │   ├── Header.jsx, Footer.jsx, Banner.jsx
-    │   ├── Menu.jsx, MenuInferior.jsx   # Navegación por categorías
-    │   ├── Product.jsx                  # Tarjeta de producto
-    │   ├── producto/        # Formulario, gestión y lista de productos
-    │   ├── usuario/         # ... de usuarios
-    │   ├── cliente/         # ... de clientes
-    │   ├── orden/           # ... de órdenes
-    │   └── estadoOrden/     # ... de estados de orden
-    └── services/            # Capa de acceso a la API (fetch)
+src/
+├── App.jsx
+├── main.jsx
+├── context/CartContext.jsx
+├── components/
+│   ├── Header.jsx
+│   ├── Footer.jsx
+│   └── cart/
+│       ├── CartDrawer.jsx
+│       ├── CheckoutModal.jsx
+│       └── OrderReceiptModal.jsx
+├── pages/CatalogoPage.jsx
+└── services/
+    ├── productService.js
+    └── categoryService.js
 ```
 
-Cada módulo de administración sigue el mismo patrón de tres componentes: `formulario*` (alta/edición), `gestion*` (orquesta el estado y las operaciones) y `lista*` / `*Admin` (tabla de registros).
+## Limitaciones
 
-## Arquitectura de datos
-
-`App.jsx` mantiene en estado los listados de productos, categorías, usuarios, clientes, órdenes y estados, y los carga todos al montar. Cada página recibe su lista y una función `onActualizar*` que vuelve a pedir los datos tras crear, editar o eliminar un registro.
-
-### API
-
-Los servicios de `src/services/` consumen los siguientes recursos de MockAPI (base `https://6aa6bbd7d7765db985079011.mockapi.io`):
-
-| Recurso | Servicio | Operaciones |
-| --- | --- | --- |
-| `/producto` | `productService.js` | GET, POST, PUT, DELETE |
-| `/categoria` | `categoryService.js` | GET |
-| `/usuario` | `usuarioService.js` | GET, POST, PUT, DELETE |
-| `/cliente` | `clienteService.js` | GET, POST, PUT, DELETE |
-| `/orden` | `ordenService.js` | GET, POST, PUT, DELETE |
-| `/estado_orden` | `estadoOrdenService.js` | GET, POST, PUT, DELETE |
-
-### Campos principales
-
-| Entidad | Campos |
-| --- | --- |
-| Producto | `nombre`, `precio`, `categoria`, `tag`, `imagen`, `descripcion` |
-| Usuario | `nombre`, `email`, `telefono`, `documento`, `rol`, `estado` |
-| Cliente | `nombre`, `email`, `telefono`, `documento`, `direccion`, `estado` |
-| Orden | `cliente`, `fecha`, `total`, `estado`, `metodoPago` |
-| Estado de orden | `nombre`, `color`, `descripcion` |
-
-El filtrado del catálogo compara `producto.categoria` con el nombre de la categoría (sin distinguir mayúsculas), por lo que ambos deben coincidir.
-
-## Configuración
-
-La URL de la API está escrita directamente en cada archivo de `src/services/`. Para apuntar a otro backend, cambia la constante `API_URL` en cada servicio (o centralízala en una variable de entorno de Vite, `VITE_API_URL`).
-
-## Limitaciones conocidas
-
-- Sin autenticación ni control de acceso en el panel de administración.
-- El carrito solo cuenta clics; no guarda productos ni genera pedidos.
-- Los servicios no validan `response.ok`, así que un error HTTP se trata como datos.
-- Sin pruebas automatizadas.
-
-## Licencia
-
-Proyecto sin licencia definida.
+- Los datos del catálogo dependen de la disponibilidad de la API de demostración.
+- Los pedidos son ficticios y se descartan al recargar.
+- No hay autenticación, autorización, backend transaccional ni pagos reales.
+- No hay pruebas automatizadas configuradas.
